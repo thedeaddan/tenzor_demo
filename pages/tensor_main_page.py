@@ -6,11 +6,12 @@ class TensorMainPage:
     def __init__(self, driver):
         self.driver = driver
 
-    def check_sila_v_lyudyah_block(self):
-        sila_v_lyudyah_block = WebDriverWait(self.driver, 10).until(
-            EC.presence_of_element_located((By.XPATH, "//div[@class='tensor_ru-VideoBanner__title']"))
+    def check_block(self):
+        block = WebDriverWait(self.driver, 10).until(
+            EC.presence_of_element_located((By.XPATH, "//p[@class='tensor_ru-Index__card-title tensor_ru-pb-16']"))
         )
-        return sila_v_lyudyah_block is not None
+        self.driver.execute_script("arguments[0].scrollIntoViewIfNeeded(true);", block)
+        return block is not None
 
     def click_more(self):
         more_button = WebDriverWait(self.driver, 10).until(

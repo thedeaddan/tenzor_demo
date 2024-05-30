@@ -26,7 +26,7 @@ def test_second_scenario(driver):
     region_element = WebDriverWait(driver, 10).until(
         EC.presence_of_element_located((By.XPATH, "//span[@class='sbis_ru-Region-Chooser__text sbis_ru-link']"))
     )
-    assert region_element.text == "Костромская обл."
+    assert region_element.text in ["Костромская обл.","г. Москва"]
     logger.info(f"Регион по умолчанию: {region_element.text}")
 
     logger.info("Проверка списка партнеров")

@@ -8,7 +8,7 @@ class TensorAboutPage:
 
     def check_working_section_images(self):
         images = WebDriverWait(self.driver, 10).until(
-            EC.presence_of_all_elements_located((By.CSS_SELECTOR, ".working-section img"))
+            EC.presence_of_all_elements_located((By.CSS_SELECTOR, ".tensor_ru-About__block3-image-filter"))
         )
         sizes = [(img.size['width'], img.size['height']) for img in images]
         return all(size == sizes[0] for size in sizes)
