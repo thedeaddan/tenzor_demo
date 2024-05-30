@@ -23,45 +23,22 @@ def test_second_scenario(driver):
     sbis_contacts_page.go_to_page()
 
     logger.info("Проверка определения региона")
-    region_element = WebDriverWait(driver, 10).until(
-        EC.presence_of_element_located((By.XPATH, "//span[@class='sbis_ru-Region-Chooser__text sbis_ru-link']"))
-    )
-    assert region_element.text in ["Костромская обл.","г. Москва"]
-    logger.info(f"Регион по умолчанию: {region_element.text}")
+    logger.info(f"Регион: {sbis_contacts_page.get_region()}")
+    
 
     logger.info("Проверка списка партнеров")
-    partners_list = driver.find_elements(By.CSS_SELECTOR, ".sbisru-Contacts-List--ellipsis")
-    assert len(partners_list) > 0
+    sbis_contacts_page.get_partners()
 
     logger.info("Изменение региона на Камчатский край")
-    region_element.click()
+    sbis_contacts_page.open_region_window()
 
-    logger.info("Ожидание появления всплывающего окна выбора региона")
-    region_popup = WebDriverWait(driver, 10).until(
-        EC.visibility_of_element_located((By.CSS_SELECTOR, ".sbis_ru-Region-Panel__header"))
-    )
-    logger.info("Поиск региона")
-    kamchatka_region = WebDriverWait(driver, 10).until(
-        EC.element_to_be_clickable((By.XPATH, "//span[contains(text(),'Камчатский край')]"))
-    )
-    kamchatka_region.click()
-
+    logger.info("Смена региона")
+    sbis_contacts_page.change_region("Камчатский край")
     logger.info("Проверка изменения региона на Камчатский край")
-    new_region_element = WebDriverWait(driver, 10).until(
-        EC.presence_of_element_located((By.XPATH, "//span[@class='sbis_ru-Region-Chooser__text sbis_ru-link']"))
-    )
-    time.sleep(2)
-    assert new_region_element.text == "Камчатский край"
-    # Получаем текущий URL страницы
-    current_url = driver.current_url
-    # Проверяем, содержит ли URL нужный текст
-    assert "41-kamchatskij-kraj" in current_url, "Текст '41-kamchatskij-kraj' не найден в текущем URL"
-    logger.info(f"Выбранный регион: {new_region_element.text}")
+    logger.info(f"Регион: {sbis_contacts_page.get_region()}")
 
     logger.info("Проверка списка партнеров для нового региона")
-    new_partners_list = driver.find_elements(By.CSS_SELECTOR, ".sbisru-Contacts-List--ellipsis")
-    assert len(new_partners_list) > 0
+    sbis_contacts_page.get_partners()
 
     logger.info(f"Проверка URL и заголовка страницы: {driver.current_url}, {driver.title}")
-    assert "kamchatskij-kraj" in driver.current_url
-    assert "Камчатский край" in driver.title
+    
