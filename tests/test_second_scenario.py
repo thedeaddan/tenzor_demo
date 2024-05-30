@@ -1,10 +1,6 @@
 import pytest
 from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 import logging
-import time
 from pages.sbis_contacts_page import SbisContactsPage
 
 logging.basicConfig(level=logging.INFO)
@@ -25,7 +21,6 @@ def test_second_scenario(driver):
     logger.info("Проверка определения региона")
     logger.info(f"Регион: {sbis_contacts_page.get_region()}")
     
-
     logger.info("Проверка списка партнеров")
     sbis_contacts_page.get_partners()
 
