@@ -52,6 +52,10 @@ def test_second_scenario(driver):
     )
     time.sleep(2)
     assert new_region_element.text == "Камчатский край"
+    # Получаем текущий URL страницы
+    current_url = driver.current_url
+    # Проверяем, содержит ли URL нужный текст
+    assert "41-kamchatskij-kraj" in current_url, "Текст '41-kamchatskij-kraj' не найден в текущем URL"
     logger.info(f"Выбранный регион: {new_region_element.text}")
 
     logger.info("Проверка списка партнеров для нового региона")
