@@ -1,14 +1,9 @@
 import pytest
-from utils.logger import setup_logger
+import logging
 
-logger = setup_logger(__name__)
+logging.basicConfig(filename='logs/test_log.log', level=logging.INFO)
 
 @pytest.hookimpl(tryfirst=True)
 def pytest_configure(config):
-    # Инициализация логгера и конфигурация
-    logger.info('Starting test session')
-
-@pytest.hookimpl(trylast=True)
-def pytest_sessionfinish(session, exitstatus):
-    # Логгирование завершения тестов и их статуса
-    logger.info('Tests finished with status: %s', exitstatus)
+    config.option.htmlpath = 'report.html'
+    config.option.self_contained_html = True

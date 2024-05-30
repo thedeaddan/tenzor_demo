@@ -1,10 +1,14 @@
 from selenium.webdriver.common.by import By
-from pages.base_page import BasePage
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
-class TensorAboutPage(BasePage):
-    WORKING_SECTION = (By.XPATH, '//section[contains(@class, "working")]')
-    PHOTOS = (By.XPATH, '//section[contains(@class, "working")]//img')
+class TensorAboutPage:
+    def __init__(self, driver):
+        self.driver = driver
 
-    def get_photo_dimensions(self):
-        photos = self.get_elements(self.PHOTOS)
-        return [(photo.size['width'], photo.size['height']) for photo in photos]
+    def check_working_section_images(self):
+        images = WebDriverWait(self.driver, 10).until(
+            EC.presence_of_all_elements_located((By.CSS_SELECTOR, ".working-section img"))
+        )
+        sizes = [(img.size['width'], img.size['height']) for img in images]
+        return all(size == sizes[0] for size in sizes)
